@@ -6,7 +6,8 @@ const playerSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
-        required: [true, 'User ObjectId must be supplied']
+        required: [true, 'User ObjectId must be supplied'],
+        immutable: true
     },
     favoriteWingName:{
         type: String,
@@ -80,7 +81,8 @@ const playerSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        immutable: true
     },
     updatedAt: {
         type: Date,

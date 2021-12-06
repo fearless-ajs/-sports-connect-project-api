@@ -67,6 +67,105 @@ class PlayerController extends Controller{
         });
     });
 
+    getMyPlayerProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Player.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        res.status(202).json({
+            status: 'success',
+            data: {
+                ...account._doc
+            }
+        });
+
+    });
+
+    updateMyPlayerProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Player.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        //3. Perform the Account update
+        delete req.body.user;
+        delete req.body.active;
+        delete req.body.updatedAt;
+        const updatedAccount = await Player.findByIdAndUpdate(account._id, req.body, {
+            new: true, //To return the updated version of the document
+            runValidators: true // To validate inputs based on the Business schema
+        });
+
+        res.status(202).json({
+            status: 'success',
+            data: {
+                ...updatedAccount._doc
+            }
+        });
+
+    });
+
+    deleteMyPlayerProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Player.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        //3. Perform the Delete
+
+        res.status(202).json({
+            status: 'success',
+            message: 'This functionality has not been implemented, check back later!'
+        });
+
+    });
+
+    getPlayerProfile = catchAsync(async (req, res, next) => {
+        console.log(req.params.userId);
+    });
+
+
+
+    updatePlayerProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Player.findOne({ user: req.user_.id });
+        if (!account){
+            return next(new AppError('No player found with that id', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+
+    });
+
+    deletePlayerProfile = catchAsync(async (req, res, next) => {
+        console.log(req.params.userId);
+
+        //Just disable the promary profile
+    });
+
 }
 
 module.exports = new PlayerController;
