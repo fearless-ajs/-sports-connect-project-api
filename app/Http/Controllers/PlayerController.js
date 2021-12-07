@@ -139,11 +139,11 @@ class PlayerController extends Controller{
 
     });
 
+
+    // For an Administrator And Agent user
     getPlayerProfile = catchAsync(async (req, res, next) => {
         console.log(req.params.userId);
     });
-
-
 
     updatePlayerProfile = catchAsync(async (req, res, next) => {
         //1.Verify if the account exists
