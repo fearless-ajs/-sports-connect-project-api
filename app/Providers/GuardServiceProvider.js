@@ -27,6 +27,13 @@ class GuardServiceProvider extends AuthServiceProvider{
             return next(new AppError('You are not logged in! Please log in to gain access', 401));
         }
 
+        if(token === 'logged_out'){
+            return next(new AppError('You are logged out! Please log in to gain access', 401));
+        }
+
+        if(token === 'null'){
+            return next(new AppError('You are logged out! Please log in to gain access', 401));
+        }
         //2. Verify the token
         //Error coming from here has been handled globally via errorController
         const decoded  = await promisify(jwt.verify)(token, process.env.JWT_SECRET); // returns the token user data

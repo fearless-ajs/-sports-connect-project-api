@@ -5,15 +5,15 @@ const validator = require("validator");
 //System Schema
 const agentClubSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'User',
         required: [true, 'User ObjectId must be supplied'],
-        unique: [true, 'You are not allowed to have more than one business account'],
+        unique: false,
+        immutable: true
     },
-    agency: {
+    clubName: {
         type: String,
-        unique: [true, 'The business name exists, please choose another name'],
-        required: [true, 'Please supply your business Name'],
+        required: [true, 'Please supply your club Name'],
         trim: true,
         maxlength: [40, 'The business Name must not have than 40 characters'],
         minlength: [2, 'The business Name must have more than 2 characters']
@@ -61,6 +61,62 @@ const agentClubSchema = new mongoose.Schema({
         maxlength: [200, 'The address must have less or equal than 200 characters'],
         minlength: [4, 'The address page link must have more or equal than 4 characters']
     },
+    city: {
+        type: String,
+        required: [true, 'Please supply club city'],
+        maxlength: [20, 'The club city must have less or equal than 20 characters'],
+    },
+    state: {
+        type: String,
+        required: [true, 'Please supply club state'],
+        maxlength: [20, 'The club state must have less or equal than 20 characters'],
+    },
+    country: {
+        type: String,
+        required: [true, 'Please supply club country'],
+        maxlength: [20, 'The club country must have less or equal than 20 characters'],
+    },
+    currentClub: {
+        type: Boolean,
+        default: false
+    },
+    startMonth: {
+        type: String,
+        required: [true, 'Start month must be supplied'],
+        enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        trim: true,
+        maxlength: [20, 'The start month must not have more than 20 characters'],
+        minlength: [2, 'The start month must have more or equal than 2 characters']
+    },
+    startYear: {
+        required: [true, 'Start year must be supplied'],
+        type: Number,
+        trim: true,
+        min: 1900,
+        max: new Date().getFullYear(),
+    },
+    endMonth: {
+        type: String,
+        trim: true,
+        enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        maxlength: [20, 'The end month must not have more than 20 characters'],
+        minlength: [2, 'The end month must have more or equal than 2 characters']
+    },
+    endYear: {
+        type: Number,
+        trim: true,
+        min: 1900,
+        max: new Date().getFullYear(),
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        immutable: true
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    }
 }, {
     //to make virtual properties show up on object and JSON
     //Virtual Properties are Fields that are not saved in the database but calculated using other values

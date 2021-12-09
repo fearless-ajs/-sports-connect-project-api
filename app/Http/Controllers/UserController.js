@@ -29,6 +29,7 @@ class UserController extends Controller{
         }else {
             cb(new AppError('Not an image, please upload only images', 400), false);
         }
+
     }
 
     upload = multer({

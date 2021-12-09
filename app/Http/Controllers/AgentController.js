@@ -1,13 +1,6 @@
-const jwt  = require('jsonwebtoken');
 const catchAsync = require('./../../Exceptions/catchAsync');
 const AppError = require('./../../Exceptions/appError');
-const AuthServiceProvider = require('./../../Providers/AuthServiceProvider');
 const roleGuard = require('./RBAC/RoleUserController');
-const permissionGuard = require('./RBAC/PermissionUserController');
-const RoleUser = require('./../../Models/RBAC/RoleUser');
-const Role = require('./../../Models/RBAC/Role');
-const PermissionUser = require('./../../Models/RBAC/PermissionUser');
-const User = require('./../../Models/User');
 const Player = require('./../../Models/Player');
 const Agent = require('./../../Models/Agent');
 const Email = require('./../../../utils/Email');
@@ -65,6 +58,78 @@ class AgentController extends Controller{
         });
     });
 
+    getMyAgentProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Agent.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        res.status(202).json({
+            status: 'success',
+            data: {
+                ...account._doc
+            }
+        });
+
+    });
+
+    updateMyAgentProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Agent.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        //3. Perform the Account update
+        delete req.body.user;
+        delete req.body.active;
+        delete req.body.updatedAt;
+        const updatedAccount = await Agent.findByIdAndUpdate(account._id, req.body, {
+            new: true, //To return the updated version of the document
+            runValidators: true, // To validate inputs based on the Business schema
+            useFindAndModify: false
+        });
+
+        res.status(202).json({
+            status: 'success',
+            data: {
+                ...updatedAccount._doc
+            }
+        });
+
+    });
+
+    deleteMyAgentProfile = catchAsync(async (req, res, next) => {
+        //1.Verify if the account exists
+        const account = await Agent.findOne({ user: req.user._id });
+        if (!account){
+            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
+        }
+
+        //2.Verify if the current User Owns the account
+        if (account.user._id.toString() !== req.user._id.toString()){
+            return next(new AppError('You are not Authorized to perform this update', 404));
+        }
+
+        //3. Perform the Delete
+
+        res.status(202).json({
+            status: 'success',
+            message: 'This functionality has not been implemented, check back later!'
+        });
+
+    });
 }
 
 module.exports = new AgentController;

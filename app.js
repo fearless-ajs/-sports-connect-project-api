@@ -13,7 +13,6 @@ const cors = require('cors');
 const AppError = require('./app/Exceptions/appError');
 const globalErrorHandler = require('./app/Exceptions/Handler');
 
-
 // System Routers
 const router = require('./routes/Boostrap');
 
@@ -67,6 +66,8 @@ app.use('/api/v1/users', router.userRouter);
 app.use('/api/v1/users', router.authRouter);
 app.use('/api/v1/players', router.playerRouter);
 app.use('/api/v1/agents', router.agentRouter);
+app.use('/api/v1/agent-clubs', router.agentClubRouter);
+app.use('/api/v1/posts', router.postRouter);
 
 
 

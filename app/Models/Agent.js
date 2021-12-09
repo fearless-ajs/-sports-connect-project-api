@@ -9,6 +9,7 @@ const agentSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'User ObjectId must be supplied'],
         unique: [true, 'You are not allowed to have more than one business account'],
+        immutable: true
     },
     agency: {
         type: String,

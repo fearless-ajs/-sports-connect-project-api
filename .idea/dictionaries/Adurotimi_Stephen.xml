@@ -2,6 +2,7 @@
   <dictionary name="Adurotimi Stephen">
     <words>
       <w>bcrypt</w>
+      <w>multer</w>
       <w>nodemail</w>
       <w>nodemailer</w>
       <w>padi</w>

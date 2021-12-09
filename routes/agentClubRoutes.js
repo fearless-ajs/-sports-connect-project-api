@@ -1,5 +1,5 @@
 const express = require('express');
-const AgentController = require('./../app/Http/Controllers/AgentController');
+const AgentClubController = require('./../app/Http/Controllers/AgentClubController');
 const Guard = require('./../app/Providers/GuardServiceProvider');
 
 const router = express.Router();
@@ -7,23 +7,25 @@ const router = express.Router();
 router.route('/')
     .post(
         Guard.authGuard,
-        Guard.restrictToRoles(['new-user']),
-        AgentController.signUp
+        Guard.restrictToRoles(['agent']),
+        AgentClubController.addClub
     )
     .get(
         Guard.authGuard,
         Guard.restrictToRoles(['agent']),
-        AgentController.getMyAgentProfile
-    )
+        AgentClubController.getAllMyClubs
+    );
+
+router.route('/:clubId')
     .patch(
         Guard.authGuard,
         Guard.restrictToRoles(['agent']),
-        AgentController.updateMyAgentProfile
+        AgentClubController.updateMyAgentClub
     )
     .delete(
         Guard.authGuard,
-        Guard.restrictToRoles(['player']),
-        AgentController.deleteMyAgentProfile
+        Guard.restrictToRoles(['agent']),
+        AgentClubController.deleteMyAgentClub
     );
 
 module.exports = router;
