@@ -18,6 +18,7 @@ const router = require('./routes/Boostrap');
 
 const app = express();
 // 1) GLOBAL MIDDLEWARES
+app.set('views', path.join(__dirname, 'views'));
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +39,7 @@ app.use(cors({
 
 // Rate limit to limit request from a single IP ADDRESS
 const limiter = rateLimit({
-    max: 100, // 100 req
+    max: 1000, // 100 req
     windowMs: 60 * 60 * 1000, //request per/hr
     message: 'Too many request from this IP, Please try again in an hour'
 });
@@ -59,6 +60,7 @@ app.use(xss());
 
 
 //MOUNTING ROUTERS
+// app.use('/', router.viewRouter);
 app.use('/api/v1/permissions', router.permissionRouter);
 app.use('/api/v1/roles', router.roleRouter);
 app.use('/api/v1/system', router.systemRouter);
@@ -68,6 +70,8 @@ app.use('/api/v1/players', router.playerRouter);
 app.use('/api/v1/agents', router.agentRouter);
 app.use('/api/v1/agent-clubs', router.agentClubRouter);
 app.use('/api/v1/posts', router.postRouter);
+app.use('/api/v1/waves', router.waveRouter);
+app.use('/api/v1/contacts', router.contactRouter);
 
 
 

@@ -8,3 +8,6 @@ exports.playerRouter = require('./playerRoutes');
 exports.agentRouter = require('./agentRoutes');
 exports.agentClubRouter = require('./agentClubRoutes');
 exports.postRouter = require('./postRoutes');
+exports.waveRouter = require('./waveRoutes');
+exports.contactRouter = require('./contactRoutes');
+exports.viewRouter = require('./viewRoutes');

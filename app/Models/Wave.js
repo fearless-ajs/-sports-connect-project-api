@@ -32,4 +32,12 @@ waveSchema.pre(/^find/, function (next) { //This fires whenever any query comman
     next();
 });
 
+waveSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
+    this.populate({
+        path: 'receiver',
+        field: '-__v _id name email' //These are the fields we don't want
+    }); //We use populate to make it return the ref values
+    next();
+});
+
 module.exports = mongoose.model('Wave', waveSchema);

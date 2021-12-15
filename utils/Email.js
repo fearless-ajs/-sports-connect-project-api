@@ -13,6 +13,7 @@ module.exports = class Email extends EmailEngine {
         await this.send('account_verified', 'Email account verified successfully');
     }
 
+
     async sendPlayerAccountCreationMessage () {
         await this.send('player_account_created', 'Player account created successfully');
     }
@@ -33,6 +34,14 @@ module.exports = class Email extends EmailEngine {
             'passwordUpdated',
             'Password updated successfully'
         );
+    }
+
+    async sendNewContactUserMessage () {
+        await this.send('contact_user_created', 'Welcome to SportsPadi');
+    }
+
+    async sendNewContactAdminMessage () {
+        await this.send('contact_admin_created', 'New visitor registered');
     }
 
 };
