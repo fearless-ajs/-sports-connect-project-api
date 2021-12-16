@@ -71,7 +71,7 @@ app.use('/api/v1/agents', router.agentRouter);
 app.use('/api/v1/agent-clubs', router.agentClubRouter);
 app.use('/api/v1/posts', router.postRouter);
 app.use('/api/v1/waves', router.waveRouter);
-app.use('/api/v1/contacts', router.contactRouter);
+app.use('server/api/v1/contacts', router.contactRouter);
 
 
 
