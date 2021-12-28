@@ -31,14 +31,14 @@ class AuthController extends AuthServiceProvider{
         });
 
         // url to the front-end account verification link
-        const url = `${req.protocol}://${req.get('host')}`;
+        const url = `${req.protocol}://${req.get('host')}/api/v1/users/verify-user/v-token/${newUser.verificationToken}`;
         await new Email(newUser, url).sendWelcome();
 
         return res.status(201).json({
             status: 'success',
             message: 'A verification link has been sent to your email, please follow the link to proceed with your account creation',
-            data: {
-                user: newUser
+            user: {
+                 ...newUser._doc
             }
         });
     });
@@ -74,7 +74,7 @@ class AuthController extends AuthServiceProvider{
         });
 
         // Mail the user concerning the account activation
-        const url = `${req.protocol}://${req.get('host')}`;
+        const url = `${req.protocol}://${req.get('host')}/`;
         await new Email(updatedUser, url).sendVerifiedAccountMessage();
 
         //Sign the user in with Jwt token and send response
@@ -90,12 +90,28 @@ class AuthController extends AuthServiceProvider{
         }
 
         //2.) Check if the user exists and the password is correct
-        const user = await User.findOne({ email: email, active: true, verificationStatus: true }).select('+password');
+        const user = await User.findOne({ email: email }).select('+password');
 
         //3.) If everything is ok, send client the token
         if (!user || !(await user.correctPassword(password, user.password))) {
             return next(new AppError('Incorrect Email or password', 401));
         }
+        //4.) Check if Account is verified
+        if (user.verificationStatus === false){
+            return res.status(200).json({
+                status: 'success',
+                message: 'Unverified Account, please verify your account through your email or follow the provided link',
+                link: `${req.protocol}://${req.get('host')}/api/v1/users/verify-user/v-token/${user.verificationToken}`,
+                user: {
+                    verificationStatus: user.verificationStatus,
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                }
+            })
+        }
+
         //Sign the user in with Jwt token and send response
        await this.createAuthToken(user, undefined, 200, res);
 

@@ -74,7 +74,6 @@ app.use('/api/v1/waves', router.waveRouter);
 app.use('/api/v1/contacts', router.contactRouter);
 
 
-
 //This should always be at the end of al the route handler middleware.
 app.all('*', (req, res, next) => { //For routes not found on the server
     //Parameters in middleware make express see it as an error

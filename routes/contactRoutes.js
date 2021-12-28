@@ -10,19 +10,19 @@ router.route('/')
     )
     .get(
     Guard.authGuard,
-    Guard.restrictToRoles(['administrator']),
+    Guard.restrictToRoles(['administrator', 'super-administrator']),
     ContactController.getAllContacts
 );
 
 router.route('/:id')
     .get(
         Guard.authGuard,
-        Guard.restrictToRoles(['administrator']),
+        Guard.restrictToRoles(['administrator', 'super-administrator']),
         ContactController.getContact
     )
     .delete(
         Guard.authGuard,
-        Guard.restrictToRoles(['administrator']),
+        Guard.restrictToRoles(['administrator', 'super-administrator']),
         ContactController.deleteContact
 );
 

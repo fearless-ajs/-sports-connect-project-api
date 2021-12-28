@@ -9,8 +9,8 @@ router.route('/')
         Guard.restrictToRoles(['super-administrator']),
         RoleController.getAllRoles)
     .post(
-        // Guard.authGuard,
-        // Guard.restrictToRoles(['super-administrator']),
+        Guard.authGuard,
+        Guard.restrictToRoles(['super-administrator']),
         RoleController.createRole);
 
 router.route('/:id')

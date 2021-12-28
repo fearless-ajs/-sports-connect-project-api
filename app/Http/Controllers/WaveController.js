@@ -200,8 +200,6 @@ class WaveController extends Controller{
             }
         })
 
-
-
     });
 
     getSeenSentWaves = catchAsync(async (req, res, next) => {
