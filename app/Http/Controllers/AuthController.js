@@ -31,7 +31,7 @@ class AuthController extends AuthServiceProvider{
         });
 
         // url to the front-end account verification link
-        const url = `${req.protocol}://${req.get('host')}/api/v1/users/verify-user/v-token/${newUser.verificationToken}`;
+        const url = `${req.protocol}://${req.get('host')}/verifyAccount/${newUser.verificationToken}`;
         await new Email(newUser, url).sendWelcome();
 
         return res.status(201).json({

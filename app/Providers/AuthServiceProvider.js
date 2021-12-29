@@ -68,8 +68,8 @@ class AuthServiceProvider {
         await res.status(201).json({
             status: 'success',
             token,
-            data: {
-                user
+            user: {
+                ...user._doc
             },
             roles: role,
         });
