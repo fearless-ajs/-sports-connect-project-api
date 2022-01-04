@@ -9,12 +9,9 @@ const playerSchema = new mongoose.Schema({
         required: [true, 'User ObjectId must be supplied'],
         immutable: true
     },
-    favoriteWingName:{
+    dateOfBirth: {
         type: String,
-        required: [true, 'Please supply your favorite wing name'],
-        trim: true,
-        maxlength: [40, 'The wing name must not have than 40 characters'],
-        minlength: [2, 'The wing name must have more than 2 characters']
+        required: [true, 'Please supply your date of birth'],
     },
     favoriteWingNo:{
         type: Number,
@@ -48,11 +45,10 @@ const playerSchema = new mongoose.Schema({
         required: false,
         lowercase: true,
     },
-    address: {
+    nationality: {
         type: String,
-        required: [true, 'Please we need an address for this buyer'],
-        maxlength: [200, 'The address must have less or equal than 200 characters'],
-        minlength: [4, 'The address page link must have more or equal than 4 characters']
+        required: [true, 'Please supply your country'],
+        maxlength: [20, 'The country must have less or equal than 20 characters'],
     },
     city: {
         type: String,
@@ -64,15 +60,13 @@ const playerSchema = new mongoose.Schema({
         required: [true, 'Please supply your state'],
         maxlength: [20, 'The state must have less or equal than 20 characters'],
     },
-    country: {
+    height: {
         type: String,
-        required: [true, 'Please supply your country'],
-        maxlength: [20, 'The country must have less or equal than 20 characters'],
+        required: [true, 'Please supply your height in feet'],
+        maxlength: [9, 'The feet should not be less than 9 feet'],
     },
-    postcode: {
-        type: Number,
-        required: [true, 'we need your postal code to process packages'],
-        // validate: [validator.isPostalCode, 'Please provide a valid postal code near you']
+    club: {
+        type: String,
     },
     active: {
         type: Boolean,

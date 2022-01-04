@@ -58,7 +58,7 @@ class PostController extends Controller{
 
     createPost = catchAsync(async (req, res, next) => {
        // Add user and media details to the request body
-        if (!req.body.content || !req.file){
+        if (!req.body.content && !req.file){
             return next(new AppError('We need the content or the media of the post', 400));
         }
 
@@ -101,7 +101,6 @@ class PostController extends Controller{
             // Delete old media if exist
             if (post.media){ await this.removePostMedia(post.media); }
         }
-
 
         // Delete Unwanted fields
         delete req.body.createdAt;
