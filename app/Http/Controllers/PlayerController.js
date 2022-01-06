@@ -25,9 +25,9 @@ class PlayerController extends Controller{
         }
 
         // Check if the user has an Agent Account
-        if (await Agent.findOne({ user: req.user.id })){
-            return next(new AppError('You already have an agent/coach profile', 400))
-        }
+        // if (await Agent.findOne({ user: req.user.id })){
+        //     return next(new AppError('You already have an agent/coach profile', 400))
+        // }
 
         // Save the user information in the database
         const newPlayer = await Player.create(req.body);

@@ -11,9 +11,9 @@ class AgentController extends Controller{
     signUp = catchAsync(async (req, res, next) => {
         req.body.user = req.user._id;
         // CHeck if user has a player account already
-        if (await Player.findOne({ user: req.user._id })){
-            return next(new AppError('You already have a player profile', 400))
-        }
+        // if (await Player.findOne({ user: req.user._id })){
+        //     return next(new AppError('You already have a player profile', 400))
+        // }
 
         // Check if the user has an Agent Account
         if (await Agent.findOne({ user: req.user.id })){
