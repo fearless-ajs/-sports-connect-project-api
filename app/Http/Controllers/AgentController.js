@@ -62,12 +62,7 @@ class AgentController extends Controller{
         //1.Verify if the account exists
         const account = await Agent.findOne({ user: req.user._id });
         if (!account){
-            return next(new AppError('Sorry, we couldn\'t find your player account', 404));
-        }
-
-        //2.Verify if the current User Owns the account
-        if (account.user._id.toString() !== req.user._id.toString()){
-            return next(new AppError('You are not Authorized to perform this update', 404));
+            return next(new AppError('Sorry, we couldn\'t find your agent account', 404));
         }
 
         res.status(202).json({

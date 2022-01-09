@@ -104,12 +104,14 @@ class UserController extends Controller{
             new: true,
             runValidators: true
         });
+        const roles  = await RoleUser.find({user: updatedUser._id}).select(['-_id', 'role'])
 
-        res.status(200).json({
+        return res.status(200).json({
             status: 'success',
-            data: {
-                user: updatedUser
-            }
+            user: {
+                ...updatedUser._doc
+            },
+            roles,
         });
     });
 

@@ -156,7 +156,6 @@ class AuthController extends AuthServiceProvider{
                         ...user
                     },
                     roles: this.role,
-                    permissions: this.permission
                 });
             } catch (err) {
                 return res.status(401).json({

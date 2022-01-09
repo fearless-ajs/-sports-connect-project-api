@@ -14,7 +14,7 @@ const playerSchema = new mongoose.Schema({
         required: [true, 'Please supply your date of birth'],
     },
     favoriteWingNo:{
-        type: Number,
+        type: String,
         required: [true, 'Please supply your favorite wing number'],
         trim: true,
         maxlength: [99, 'The wing number must not be above 99'],
