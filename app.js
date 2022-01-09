@@ -21,7 +21,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 
 // Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'api/public')));
 
 //For http security headers
 app.use(helmet()); //We need to run the helmet() function, not just point to it
