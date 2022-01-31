@@ -200,10 +200,12 @@ class AuthController extends AuthServiceProvider{
 
         // 3) Send it to user's email
         try {
-            const resetURL = `${req.protocol}://${req.get(
-                'host'
-            )}/api/v1/users/resetPassword/${resetToken}`;
+            // const resetURL = `${req.protocol}://${req.get(
+            //     'host'
+            // )}/api/v1/users/resetPassword/${resetToken}`;
 
+
+            const resetURL = `${process.env.PRODUCTION_URL}/choose-password/${resetToken}`;
             await new Email(user, resetURL).sendPasswordReset();
 
             res.status(200).json({
@@ -253,8 +255,7 @@ class AuthController extends AuthServiceProvider{
         //3) update changePasswordAt property for the user
         //4) Log the user in, send JWT
         //Sign the user in with Jwt token and send response
-        await this.createSendToken(user, null, null, 201, res);
-
+        await this.createAuthToken(user, undefined, 200, res);
     });
 
     //For already logged in user

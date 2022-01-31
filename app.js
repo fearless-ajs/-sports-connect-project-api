@@ -62,6 +62,7 @@ app.use(
     hpp({
         whitelist: [
             'createdAt',
+            'user',
             'content'
         ]
     })
