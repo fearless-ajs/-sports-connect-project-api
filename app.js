@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development'){
 
 app.use(cors({
     credentials: true,
-    origin: process.env.LOCAL_URL
+    origin: [process.env.LOCAL_URL, process.env.PRODUCTION_URL]
 }))
 
 
