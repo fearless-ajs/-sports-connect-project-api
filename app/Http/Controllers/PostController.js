@@ -165,7 +165,6 @@ class PostController extends Controller{
 
 
 
-
 }
 
 module.exports = new PostController;

@@ -141,9 +141,7 @@ class PlayerController extends Controller{
 
 
     // For an Administrator And Agent user
-    getPlayerProfile = catchAsync(async (req, res, next) => {
-        console.log(req.params.userId);
-    });
+    getPlayerProfile = this.getOne(Player);
 
     updatePlayerProfile = catchAsync(async (req, res, next) => {
         //1.Verify if the account exists
@@ -166,6 +164,7 @@ class PlayerController extends Controller{
         //Just disable the promary profile
     });
 
+    getAllPlayers = this.getAll(Player);
 }
 
 module.exports = new PlayerController;

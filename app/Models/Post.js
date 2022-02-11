@@ -39,12 +39,12 @@ postSchema.pre('save', function (next) {
     next();
 });
 
-// postSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
-//     this.populate({
-//         path: 'user',
-//         field: '-__v _id name email' //These are the fields we don't want
-//     }); //We use populate to make it return the ref values
-//     next();
-// });
+postSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
+    this.populate({
+        path: 'user',
+        field: '-__v _id name email' //These are the fields we don't want
+    }); //We use populate to make it return the ref values
+    next();
+});
 
 module.exports = mongoose.model('Post', postSchema);

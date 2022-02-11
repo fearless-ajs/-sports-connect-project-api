@@ -43,4 +43,19 @@ router.route('/:userId')
         PlayerController.deletePlayerProfile
     )
 
+
+// Other Player operations
+router.route('/active/all')
+    .get(
+        Guard.authGuard,
+        PlayerController.getAllPlayers
+    )
+
+router.route('/active/view/:id')
+    .get(
+        Guard.authGuard,
+        PlayerController.getPlayerProfile
+    )
+
+
 module.exports = router;
