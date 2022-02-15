@@ -9,5 +9,6 @@ exports.agentRouter = require('./agentRoutes');
 exports.agentClubRouter = require('./agentClubRoutes');
 exports.postRouter = require('./postRoutes');
 exports.waveRouter = require('./waveRoutes');
+exports.bookingRouter = require('./bookingRoutes');
 exports.contactRouter = require('./contactRoutes');
 

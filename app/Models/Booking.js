@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const waveSchema = new mongoose.Schema({
+const bookingSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
@@ -13,29 +13,17 @@ const waveSchema = new mongoose.Schema({
         required: [true, 'Receiver ObjectId must be supplied'],
         immutable: true
     },
-    startDate: {
-        type: String,
-        required: [true, 'Start date must be supplied'],
-        trim: true,
-    },
-    startTime: {
-        type: String,
-        required: [true, 'Start time must be supplied'],
-        trim: true,
+    status: {
+      type: String,
+      default: 'Pending',
+      enum: {
+          values: ['Pending', 'Accepted', 'Rejected'],
+          message: 'Status can only be either Pending, Accepted, or Rejected'
+      }
     },
     seen: {
         type: Boolean,
         default: false,
-    },
-    status: {
-        type: String,
-        enum: ['Pending', 'Occurred', 'Terminated'],
-        default: 'Pending'
-    },
-    receiverResponse: {
-        type: String,
-        enum: ['Pending', 'Accepted', 'Rejected', 'Rescheduled'],
-        default: 'Pending'
     },
     createdAt: {
         type: Date,
@@ -44,7 +32,7 @@ const waveSchema = new mongoose.Schema({
     }
 });
 
-waveSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
+bookingSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
     this.populate({
         path: 'user',
         field: '-__v _id name email' //These are the fields we don't want
@@ -52,7 +40,7 @@ waveSchema.pre(/^find/, function (next) { //This fires whenever any query comman
     next();
 });
 
-waveSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
+bookingSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
     this.populate({
         path: 'receiver',
         field: '-__v _id name email' //These are the fields we don't want
@@ -60,4 +48,4 @@ waveSchema.pre(/^find/, function (next) { //This fires whenever any query comman
     next();
 });
 
-module.exports = mongoose.model('Wave', waveSchema);
+module.exports = mongoose.model('Booking', bookingSchema);
