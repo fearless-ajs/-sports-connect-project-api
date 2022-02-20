@@ -16,11 +16,15 @@ router.route('/:receiverId')
         Guard.restrictToRoles(['agent', 'administrator']),
         BookingController.createBooking
     )
+
+
+router.route('/is-player-booked/:talentId')
     .get(
-    Guard.authGuard,
-    Guard.restrictToRoles(['agent', 'player', 'administrator']),
-    BookingController.getMyBooking
-);
+        Guard.authGuard,
+        Guard.restrictToRoles(['agent', 'player', 'administrator']),
+        BookingController.isPlayerBooked
+    );
+
 
 router.route('/booking/:id')
     .delete(
@@ -28,6 +32,14 @@ router.route('/booking/:id')
     Guard.restrictToRoles(['agent', 'player', 'administrator']),
     BookingController.deleteBooking
 );
+
+router.route('/booking/update-status/:agentId')
+    .patch(
+        Guard.authGuard,
+        Guard.restrictToRoles(['agent', 'player', 'administrator']),
+        BookingController.attendToBooking
+    );
+
 
 
 module.exports = router;

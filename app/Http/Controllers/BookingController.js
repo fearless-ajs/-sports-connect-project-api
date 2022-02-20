@@ -3,7 +3,7 @@ const AppError = require('./../../Exceptions/appError');
 const Controller = require('./Controller');
 const Booking = require('../../Models/Booking');
 const User = require('../../Models/User');
-
+const Player = require('../../Models/Player');
 
 class BookingController extends Controller{
 
@@ -51,6 +51,35 @@ class BookingController extends Controller{
 
     });
 
+    isPlayerBooked = catchAsync(async (req, res, next) => {
+        // Check if receiver Id exists
+        if (!req.params.talentId){
+            return next(new AppError('We need the talent ID', 400))
+        }
+
+        // Check if the receiver exists
+        const user = await Player.findById(req.params.talentId);
+        if (!user)
+        {
+            return next(new AppError('User not found', 404))
+        }
+
+        // Check if there is an existing booking
+        const existingBooking = await Booking.findOne({ user: req.user._id, receiver: req.params.talentId });
+        if (existingBooking){
+            return res.status(202).json({
+                status: true,
+            })
+        }
+
+        // If there is no booking
+        res.status(202).json({
+            status: false,
+        })
+
+
+    });
+
     deleteBooking = catchAsync(async (req, res, next) => {
 
         const booking = await Booking.findOne({ _id: req.params.id });
@@ -72,18 +101,24 @@ class BookingController extends Controller{
         })
     });
 
-    getMyBooking = catchAsync(async (req, res, next) => {
-
-        const bookings = await Booking.find({ user: req.user._id });
-        if (!bookings){
-            return next(new AppError('Sorry, we couldn\'t find any post for you', 404));
+    attendToBooking = catchAsync(async (req, res, next) => {
+        const booking = await Booking.findOne({ receiver: req.user._id, user: req.params.agentId });
+        if (!booking){
+            return next(new AppError('Sorry, we couldn\'t find any booking for you', 404));
         }
+
+        // Validate that the status is sent
+        if (!req.body.status){
+            return next(new AppError('You need to supply the status to be updated to', 401));
+        }
+
+        // make the update
+        await Booking.findByIdAndUpdate(booking._id, {
+           status: req.body.status
+        });
 
         res.status(200).json({
             status: 'success',
-            data: {
-                bookings
-            }
         })
     });
 
