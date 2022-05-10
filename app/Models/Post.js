@@ -42,7 +42,7 @@ postSchema.pre('save', function (next) {
 postSchema.pre(/^find/, function (next) { //This fires whenever any query command with find is encountered
     this.populate({
         path: 'user',
-        field: '-__v _id name email' //These are the fields we don't want
+        field: '-__v _id  email' //These are the fields we don't want
     }); //We use populate to make it return the ref values
     next();
 });
